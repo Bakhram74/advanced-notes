@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 export function useLocalStorage<T>(key: string, initValue: T | (() => T)) {
-    const [value, setValue] = useState(() => {
+    const [value, setValue] = useState<T>(() => {
         const jsonValue = localStorage.getItem(key)
         if (jsonValue == null) {
             if (typeof initValue === 'function') {
@@ -18,5 +18,5 @@ return  JSON.parse(jsonValue)
         localStorage.setItem(key, JSON.stringify(value));
     }, [value, key]);
 
-    return [value, setValue];
+    return [value, setValue] as [T, typeof setValue];
 }
