@@ -18,5 +18,5 @@ return  JSON.parse(jsonValue)
         localStorage.setItem(key, JSON.stringify(value));
     }, [value, key]);
 
-    return [value, setValue] as const;
+    return [value, setValue] as [T, typeof setValue]; //as const
 }

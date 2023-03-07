@@ -1,6 +1,6 @@
 import React from 'react';
-import NoteForm from "./NoteForm";
-import {NoteData, Tag} from "./App";
+import NoteForm from "../NoteForm/NoteForm";
+import {NoteData, Tag} from "../../App";
 type NewNoteProps={
     onSubmit:(data:NoteData)=>void
     onAddTag:(tag:Tag)=>void

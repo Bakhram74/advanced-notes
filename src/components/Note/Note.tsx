@@ -1,5 +1,5 @@
 import React from 'react';
-import {useNote} from "./hooks/useNote";
+import {useNote} from "../../hooks/useNote";
 import {Badge, Button, Col, Row, Stack} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import ReactMarkdown from "react-markdown";
