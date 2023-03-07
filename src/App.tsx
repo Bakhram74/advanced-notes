@@ -1,11 +1,12 @@
-import React, {useCallback, useMemo} from 'react';
+import React, { useMemo} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Navigate, Route, Routes} from "react-router-dom";
 import NewNote from "./NewNote";
 import {Container} from "react-bootstrap";
 import { useLocalStorage} from "./hooks/useLocalStorage";
-import {v4, v4 as uuidV4} from "uuid"
+import {v4} from "uuid"
 import NoteList from "./NoteList";
+import NoteLayout from "./NoteLayout";
 
 export type Note = {
     id: string
@@ -61,8 +62,8 @@ function App() {
                                                        onAddTag={addTag}
                                                        availableTags={tags}
                 />}/>
-                <Route path={'/:id'}>
-                    <Route index element={<h1>Id</h1>}/>
+                <Route path={'/:id'} element={<NoteLayout notes={notesWithTags}/>}>
+                    <Route index element={<h1>Show</h1>}/>
                     <Route path={'edit'} element={<h1>Edit</h1>}/>
                 </Route>
                 <Route path={'*'} element={<Navigate to={'/'}/>}/>
