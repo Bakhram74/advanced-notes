@@ -52,6 +52,11 @@ function App() {
             ]
         })
     }
+    const onDeleteNote = (id:string) => {
+        setNotes(prevNotes => {
+            return prevNotes.filter(note=>note.id !== id)
+        })
+    }
     const onUpdateNote = (id:string,{tags, ...data}: NoteData) => {
         setNotes(prevNotes =>{
             return prevNotes.map(note=>{
@@ -82,7 +87,7 @@ function App() {
                                                        availableTags={tags}
                 />}/>
                 <Route path={'/:id'} element={<NoteLayout notes={notesWithTags}/>}>
-                    <Route index element={<Note/>}/>
+                    <Route index element={<Note onDelete={onDeleteNote}/>}/>
                     <Route path={'edit'} element={<EditNode availableTags={tags} onSubmit={onUpdateNote} onAddTag={addTag}/>}/>
                 </Route>
                 <Route path={'*'} element={<Navigate to={'/'}/>}/>
