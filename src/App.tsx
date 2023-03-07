@@ -7,6 +7,8 @@ import { useLocalStorage} from "./hooks/useLocalStorage";
 import {v4} from "uuid"
 import NoteList from "./NoteList";
 import NoteLayout from "./NoteLayout";
+import Note from './Note';
+import EditNode from "./EditNode";
 
 export type Note = {
     id: string
@@ -42,9 +44,26 @@ function App() {
             return { ...note, tags: tags.filter(tag => {return (note.tagIds || []).includes(tag.id)}) }
         })
     }, [notes, tags])
-    console.log(notesWithTags)
     const onCreateNote = ({tags, ...data}: NoteData) => {
          setNotes(prevNotes => {
+            return [
+                ...prevNotes,
+                {...data, id: v4(), tagIds: tags.map(tag => tag.id)},
+            ]
+        })
+    }
+    const onUpdateNote = (id:string,{tags, ...data}: NoteData) => {
+        setNotes(prevNotes =>{
+            return prevNotes.map(note=>{
+                if (note.id === id){
+                  return   {...note,...data,tagIds:tags.map(tag=>tag.id)}
+                }else {
+                    return note
+                }
+            })
+        })
+
+        setNotes(prevNotes => {
             return [
                 ...prevNotes,
                 {...data, id: v4(), tagIds: tags.map(tag => tag.id)},
@@ -63,8 +82,8 @@ function App() {
                                                        availableTags={tags}
                 />}/>
                 <Route path={'/:id'} element={<NoteLayout notes={notesWithTags}/>}>
-                    <Route index element={<h1>Show</h1>}/>
-                    <Route path={'edit'} element={<h1>Edit</h1>}/>
+                    <Route index element={<Note/>}/>
+                    <Route path={'edit'} element={<EditNode availableTags={tags} onSubmit={onUpdateNote} onAddTag={addTag}/>}/>
                 </Route>
                 <Route path={'*'} element={<Navigate to={'/'}/>}/>
             </Routes>
